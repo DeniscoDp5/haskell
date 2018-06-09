@@ -50,3 +50,37 @@ transpose (x:xs) = transpose' (x:xs) 1 (dim_list(x))
 transpose' (x:xs) n  acc = if(n <= acc) then (get_n_of_list_of_list (x:xs) n)  : transpose' (x:xs) (n+1) acc  else []
 
 colSum list = rowSum (transpose list)
+
+-- ALBERI BINARI DI RICERCA 
+--1
+data BST a = Nil | Node {
+val :: a ,
+left , right :: BST a
+} deriving ( Eq , Ord , Read , Show )
+
+bstSum Nil = 0
+bstSum (Node x l r) = x + bstSum l + bstSum r
+--2
+bstSumOdd Nil = 0
+bstSumOdd (Node a l r) = if ((mod a 2) == 0 ) then bstSumOdd l + bstSumOdd r else a + bstSumOdd l + bstSumOdd r
+
+--3
+
+samesums list = sameContent (map bstSum list)
+sameContent [] = True
+sameContent (x:xs) = sameContent' xs x
+sameContent' [] x = True
+sameContent' (x:xs) l = if(l == x) then sameContent' xs l else False
+
+-- if my bst is not ordered (so only a bynary tree), how could i verify every for every node?
+--4
+bstElem x Nil = False
+bstElem y (Node x l r) 
+    | x == y    = True
+    | y < x     = bstElem y l
+    | otherwise = bstElem y r
+
+
+-- ALBERI GENERICI
+
+data Tree a = Nil' | Node' a [Tree a] deriving (Eq, Show)
